@@ -26,7 +26,26 @@ def determine_safety(line: list[int]) -> int:
     return 1
         
 def part2(path: str):
-    pass
+    lines = read_file(path)
+
+    safe_reports = 0
+
+    for l in lines:
+        if(determine_safety(l)): # safe
+            safe_reports += 1
+        else:
+            safe_reports += problem_dampener(l) #can it be fixed
+    
+    return safe_reports
+    
+def problem_dampener(line: list[int]) -> int:
+    for i in range(len(line)):
+        copy = line.copy()
+        copy.pop(i)
+        if (determine_safety(copy)):
+            print("Can be fixed by removing", line[i])
+            return True
+    return False
     
 if __name__ == "__main__":
     import sys
