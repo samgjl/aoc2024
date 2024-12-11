@@ -23,13 +23,25 @@ def part1(path: str) -> int:
         total += abs(list1[i]-list2[i])
     return total
 
+def part2(path: str) -> int:
+    list1,list2 = read_input(path)
+    
+    total_score = 0
+    for id in list1:
+        total_score += (id*list2.count(id))
+    return total_score
+
                    
 if __name__ == "__main__":
     import sys
-    path = "sample.txt"
+    path = "input.txt"
     if len(sys.argv) > 1:
         path = sys.argv[1]
-    part1 = part1(path)
+    p1 = part1(path)
+    p2 = part2(path)
     print("--- Part 1 ---")
-    print("Total:", part1)
+    print("Total:", p1)
+    print("--------------")
+    print("--- Part 2 ---")
+    print("Total:", p2)
     print("--------------")
