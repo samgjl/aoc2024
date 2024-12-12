@@ -23,14 +23,13 @@ class Solution:
             total += self.ray_helper(coords,dir)
         return total
 
-    def ray_helper(self, coords: tuple[int,int], dir: tuple[int,int]):
-        q = ["M","A","S"]
+    def ray_helper(self, coords: tuple[int,int], dir: tuple[int,int], queue:list[str]=["M","A","S"]):
         x,y = coords
         dx,dy = dir
-        while len(q) > 0:
+        while len(queue) > 0:
             x,y = (x+dx, y+dy)
-            if 0<=x<len(self.graph) and 0<=y<len(self.graph[x]) and self.graph[x][y]==q[0]:
-                q = q[1:]
+            if 0<=x<len(self.graph) and 0<=y<len(self.graph[x]) and self.graph[x][y]==queue[0]:
+                queue = queue[1:]
             else:
                 return 0
         return 1
@@ -42,8 +41,22 @@ class Solution:
                 if (i,j) != (0,0): l.append((i,j))
         return l
 
-    def part2(path: str) -> int:
-        pass
+    def part2(self) -> int:
+        total = 0
+        for i in range(1,len(self.graph)-1):
+            for j in range(1,len(self.graph[i])-1):
+                if self.graph[i][j] == 'A':
+                    total += self.raycast2([i,j])
+        return total
+    
+    def raycast2(self, coords):
+        x,y = coords
+        g = self.graph
+        s1 = g[x-1][y-1] + "A" + g[x+1][y+1] # Down-Right
+        s2 = g[x+1][y-1] + "A" + g[x-1][y+1] # Down-Left
+        cond1 = (s1=="MAS" or s1=="SAM")
+        cond2 = (s2=="MAS" or s2=="SAM")
+        return (cond1 and cond2)
 
 if __name__ == "__main__":
     import sys
