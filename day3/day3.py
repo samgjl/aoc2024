@@ -15,7 +15,21 @@ def part1(path: str) -> int:
     
 
 def part2(path: str) -> int:
-    text = read_input(path)
+    text = "do()" + read_input(path)
+    text = text.split("do")
+    '''
+    3 kinds:
+        "()......"
+        "'nt()....."
+        "<malformed>"
+    '''
+    regex = r'mul\((\d{1,3})\,(\d{1,3})\)'
+    multlist = []
+    for t in text:
+        if len(t) > 1 and t[:2] == "()":
+            multlist += re.findall(regex, t)
+                
+    return sum([int(x[0])*int(x[1]) for x in multlist])
     
 if __name__ == "__main__":
     import sys
