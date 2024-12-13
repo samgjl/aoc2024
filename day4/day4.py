@@ -5,7 +5,7 @@ class Solution:
         
     def read_input(self, path: str) -> list[str]:
         with open(path) as f:
-            return [[c for c in l] for l in f.readlines()]            
+            return [[c for c in l] for l in f.readlines()]          
         
     def part1(self) -> int:
         total = 0
