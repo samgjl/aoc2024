@@ -13,10 +13,10 @@ def find_trailheads(grid):
                 heads.append((i,j))
     return heads
 
-def score(grid,start):
+def score(grid,start, unique=False):
     #BFS!!
-    # nines = list()
-    nines = set()
+    nines = list()
+
     queue = [start]
     directions = [(0,1), (1,0), (0,-1), (-1,0)]
     
@@ -24,7 +24,8 @@ def score(grid,start):
         curr = queue.pop(0)
         val = grid[curr[0]][curr[1]]
         if val == 9:
-            nines.add(curr)
+            # nines.add(curr)
+            nines.append(curr)
             # continue
 
         for d in directions:
@@ -33,6 +34,8 @@ def score(grid,start):
             valid_trail = in_bounds and grid[adj[0]][adj[1]] == val+1
             if valid_trail:
                 queue.append(adj)
+    if unique:
+        return len(set(nines))
     return len(nines)
 
 def part1(path: str):
@@ -41,12 +44,20 @@ def part1(path: str):
     
     total = 0
     for zero in heads:
-        total += score(grid,zero)
+        total += score(grid,zero,unique=True)
     
     return total
 
 def part2(path: str):
-    pass
+    grid = read_input(path)
+    heads = find_trailheads(grid)
+    
+    total = 0
+    for zero in heads:
+        total += score(grid,zero,unique=False)
+    
+    return total
+
 
 if __name__ == "__main__":
     import sys
